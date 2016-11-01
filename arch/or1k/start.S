@@ -22,7 +22,7 @@
  */
 #include <asm.h>
 #include <arch/ops.h>
-#include <arch/or1k/mmu.h>
+#include <arch/or1k/defines.h>
 #include <kernel/vm.h>
 
 #define RED_ZONE            128

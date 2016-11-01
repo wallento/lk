@@ -29,6 +29,7 @@
 #include <arch/mmu.h>
 #include <arch/or1k.h>
 #include <arch/or1k/mmu.h>
+#include <arch/or1k/defines.h>
 #include <kernel/vm.h>
 
 #define LOCAL_TRACE 0
