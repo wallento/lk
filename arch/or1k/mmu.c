@@ -54,24 +54,32 @@ void or1k_invalidate_tlb(vaddr_t vaddr, uint count)
         switch (num_dtlb_ways) {
             case 4:
                 mtspr_off(0, OR1K_SPR_DMMU_DTLBW_MR_ADDR(3, offs), 0);
+                break;
             case 3:
                 mtspr_off(0, OR1K_SPR_DMMU_DTLBW_MR_ADDR(2, offs), 0);
+                break;
             case 2:
                 mtspr_off(0, OR1K_SPR_DMMU_DTLBW_MR_ADDR(1, offs), 0);
+                break;
             case 1:
                 mtspr_off(0, OR1K_SPR_DMMU_DTLBW_MR_ADDR(0, offs), 0);
+                break;
         }
 
         offs = (vaddr >> PAGE_SIZE_SHIFT) & (num_itlb_sets-1);
         switch (num_itlb_ways) {
             case 4:
                 mtspr_off(0, OR1K_SPR_IMMU_ITLBW_MR_ADDR(3, offs), 0);
+                break;
             case 3:
                 mtspr_off(0, OR1K_SPR_IMMU_ITLBW_MR_ADDR(2, offs), 0);
+                break;
             case 2:
                 mtspr_off(0, OR1K_SPR_IMMU_ITLBW_MR_ADDR(1, offs), 0);
+                break;
             case 1:
                 mtspr_off(0, OR1K_SPR_IMMU_ITLBW_MR_ADDR(0, offs), 0);
+                break;
         }
         vaddr += PAGE_SIZE;
     }
@@ -114,7 +122,7 @@ status_t arch_mmu_query(vaddr_t vaddr, paddr_t *paddr, uint *flags)
 
 int arch_mmu_unmap(vaddr_t vaddr, uint count)
 {
-    LTRACEF("vaddr = 0x%x, count = %d\n", vaddr, count);
+    LTRACEF("vaddr = 0x%lx, count = %d\n", vaddr, count);
 
     if (!IS_PAGE_ALIGNED(vaddr))
         return ERR_INVALID_ARGS;
@@ -148,7 +156,7 @@ int arch_mmu_map(vaddr_t vaddr, paddr_t paddr, uint count, uint flags)
     uint32_t pte;
     uint32_t arch_flags = 0;
 
-    LTRACEF("vaddr = 0x%x, paddr = 0x%x, count = %d, flags = 0x%x\n", vaddr, paddr, count, flags);
+    LTRACEF("vaddr = 0x%lx, paddr = 0x%lx, count = %d, flags = 0x%x\n", vaddr, paddr, count, flags);
 
     if (!IS_PAGE_ALIGNED(vaddr) || !IS_PAGE_ALIGNED(paddr))
         return ERR_INVALID_ARGS;
@@ -200,7 +208,7 @@ int arch_mmu_map(vaddr_t vaddr, paddr_t paddr, uint count, uint flags)
 
         uint l2_index = (vaddr % SECTION_SIZE) / PAGE_SIZE;
 
-        LTRACEF("l2_index = 0x%x, vaddr = 0x%x, paddr = 0x%x\n", l2_index, vaddr, paddr);
+        LTRACEF("l2_index = 0x%x, vaddr = 0x%lx, paddr = 0x%lx\n", l2_index, vaddr, paddr);
         l2_table[l2_index] = paddr | arch_flags | OR1K_MMU_PG_PRESENT | OR1K_MMU_PG_L;
 
         count--;
